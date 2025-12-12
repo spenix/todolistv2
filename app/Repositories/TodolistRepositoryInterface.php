@@ -8,6 +8,7 @@ interface TodolistRepositoryInterface
     public function getTodoDates();
     public function findById($id);
     public function create(array $data);
+    public function getTodos(array $data);
     public function update($id, array $data);
     public function delete($id);
 }

@@ -99,4 +99,27 @@ class TodolistRepository implements TodolistRepositoryInterface
 
         return array_merge([['value' => 'All', 'label' => 'All']], $formattedDates->toArray());
     }
+
+    public function getTodos(array $data)
+    {
+         $query = Todolist::query();
+        // Search by keyword (partial match on description)
+        if (isset($data['search']) && $data['search'] !== '') {
+
+            $query->where('description', 'LIKE', '%' . $data['search'] . '%');
+        }
+
+        // Optional: filter by date
+        if (isset($data['date']) && ($data['date'] !== '' && $data['date'] !== 'All')) {
+            $query->where('task_date', $data['date']);
+        }
+
+        if (isset($data['status']) && $data['status'] !== 'All') {
+            $query->where('status', $data['status']);
+        }
+
+        $data = $query->orderBy('task_date', 'desc')->get();
+
+        return response()->json($data);
+    }
 }

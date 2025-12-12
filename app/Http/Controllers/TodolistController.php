@@ -109,25 +109,8 @@ class TodolistController extends Controller
     public function get_todos(Request $request)
 {
     try {
-        $query = Todolist::query();
-        // Search by keyword (partial match on description)
-        if ($request->has('search') && $request->search !== '') {
 
-            $query->where('description', 'LIKE', '%' . $request->search . '%');
-        }
-
-        // Optional: filter by date
-        if ($request->has('date') && ($request->date !== '' && $request->date !== 'All')) {
-            $query->where('task_date', $request->date);
-        }
-
-        if ($request->has('status') && $request->status !== 'All') {
-            $query->where('status', $request->status);
-        }
-
-        $data = $query->orderBy('task_date', 'desc')->get();
-
-        return response()->json($data);
+        return $this->todoListRepo->getTodos($request->all());;
 
     } catch (\Throwable $e) {
         return response()->json([
