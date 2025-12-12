@@ -24,7 +24,7 @@ class TodolistRepository implements TodolistRepositoryInterface
                 'description' => $data['description'],
                 'task_date' => $data['task_date'],
                 'priority' => $data['priority'],
-                'task_date' => $data['task_date'],
+                'status' => $data['status'],
             ];
 
             $isExist = Todolist::where( [
